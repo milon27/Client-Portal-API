@@ -34,16 +34,14 @@ const User = con.define(DbDefine.USER_TABLE, {
     is_admin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+        get() {
+            return this.getDataValue('is_admin') === 0 || this.getDataValue('is_admin') === false ? false : true;
+        },
         validate: {
             notEmpty: true,
         }
     }
-}, {
-    tableName: DbDefine.USER_TABLE,
-    createdAt: DbDefine.CREATED_AT,
-    updatedAt: false
 }
-
 )
 
 

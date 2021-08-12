@@ -13,31 +13,33 @@ const AuthController = {
      * create password hash,save into database
      * generate a jwt access token,set into http cookie
      * return new user object as response
-    * @param { email, name, password} =req.body
+    * @param { email, name, password, is_admin } =req.body
      * @response {error(boolean), message(String), response(object:USER)}
      */
     signUp: async (req, res) => {
         try {
-            const { email, name, password } = req.body
+            const { email, name, password, is_admin } = req.body
             //validatioin handle by sequlize
             if (password.length < 6) {
                 throw new Error("Password Length Should be More than 5 character.")
             }
             //get hash pass & save new user into db
             const hashpass = await bcryptjs.hash(password, await bcryptjs.genSalt(10))
-            const user = {
+            const userOb = {
                 email,
                 name,
-                password: hashpass
+                password: hashpass,
+                is_admin
             }
             //save on database
-            const { dataValues } = await User.create(user)
+            const u = await User.create(userOb)
+            const user = u.get()
             //get token and set into cookie
             const token = Helper.getJWTtoken(email)
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
-            delete dataValues.password
-            res.status(200).json(Response(false, "user created successfully", { ...dataValues, token }))
+            delete user.password
+            res.status(200).json(Response(false, "user created successfully", { ...user, token }))
 
         } catch (e) {
             console.log("auth sign up: ", e);
@@ -48,17 +50,23 @@ const AuthController = {
 
     login: async (req, res) => {
         try {
+
             const { email, password } = req.body
             //validatioin
             if (!email || !password) {
                 throw new Error("Enter email,password")
             }
             //check user is available or not in db
-            const user = await User.findOne({
+            const u = await User.findOne({
                 where: {
                     email
                 }
             })
+            const user = u.get()
+            if (!user) {
+                throw new Error("No User Found with this email!")
+            }
+            //console.log(user);
             //validate password
             const ckPass = await bcryptjs.compare(password, user.password)
             if (!ckPass) {

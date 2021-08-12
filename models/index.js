@@ -1,5 +1,6 @@
 'use strict';
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
+const DbDefine = require('../utils/DbDefine');
 
 const db = {};
 
@@ -13,7 +14,7 @@ let con = new Sequelize(process.env.db_database, process.env.db_username, proces
   charset: 'utf8',
   collate: 'utf8_general_ci',
   query: {
-    raw: true
+    raw: false
   },
   pool: {
     max: 10,
@@ -21,7 +22,10 @@ let con = new Sequelize(process.env.db_database, process.env.db_username, proces
     idle: 10000,
   },
   define: {
-    underscored: true
+    underscored: true,
+    freezeTableName: true,
+    createdAt: DbDefine.CREATED_AT,
+    updatedAt: false
   },
   // dialectOptions: {
   //   timezone: '+06:00',
