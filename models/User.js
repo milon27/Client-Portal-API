@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { con } = require('.');
 const DbDefine = require('../utils/DbDefine');
+const Page = require('./Page');
 
 
 const User = con.define(DbDefine.USER_TABLE, {
@@ -41,10 +42,9 @@ const User = con.define(DbDefine.USER_TABLE, {
             notEmpty: true,
         }
     }
-}
-)
-
-
+})
+//1 user many page
+User.hasMany(Page, { foreignKey: "uid" })
 
 module.exports = User;
 

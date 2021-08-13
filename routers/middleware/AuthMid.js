@@ -12,9 +12,10 @@ const AuthMid = (req, res, next) => {
             throw new Error("Unauthorized Access")
         }
         //token validation
-        const email = Helper.verifyJWTtoken(token)
-        //set user email in request
-        req.email = email
+        const { id } = Helper.verifyJWTtoken(token)
+
+        //set user id in request
+        req.id = id
         next()
     } catch (e) {
         res.status(401).json(Response(true, e.message, e))

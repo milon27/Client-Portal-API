@@ -35,7 +35,7 @@ const AuthController = {
             const u = await User.create(userOb)
             const user = u.get()
             //get token and set into cookie
-            const token = Helper.getJWTtoken(email)
+            const token = Helper.getJWTtoken(user.id)
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
             delete user.password
@@ -62,10 +62,11 @@ const AuthController = {
                     email
                 }
             })
-            const user = u.get()
-            if (!user) {
+            if (!u) {
                 throw new Error("No User Found with this email!")
             }
+            const user = u.get()
+
             //console.log(user);
             //validate password
             const ckPass = await bcryptjs.compare(password, user.password)
@@ -74,7 +75,7 @@ const AuthController = {
             }
 
             //get token and set into cookie
-            const token = Helper.getJWTtoken(email)
+            const token = Helper.getJWTtoken(user.id)
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
             delete user.password

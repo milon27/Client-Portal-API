@@ -29,7 +29,7 @@ require('./models')
 //routers
 app.get('/', (req, res) => res.send('home'))
 app.use('/auth', require('./routers/authRouter'))
-app.use('/private', AuthMid, require('./routers/authRouter'))
+app.use('/client', AuthMid, require('./routers/clientRouter'))
 
 
 //catch all error
