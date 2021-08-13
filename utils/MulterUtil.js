@@ -39,6 +39,7 @@ let Uploader = multer({
             if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
                 cb(null, true)
             } else {
+                //catch this error in global ErrorMid.js file
                 cb(new Error("file type not suppported"), false)
             }
         }
