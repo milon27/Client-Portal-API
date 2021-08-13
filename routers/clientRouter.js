@@ -6,6 +6,8 @@ const Response = require('../models/Response')
 const DbDefine = require('../utils/DbDefine')
 const Helper = require('../utils/Helper')
 
+const Uploader = require('../utils/MulterUtil')
+
 /**
  * @design by milon27
  */
@@ -58,18 +60,38 @@ router.get('/get-pages/:cid', async (req, res) => {
  * @endpoint http://localhost:2727/client/create-file
  * @example same
  */
-router.post('/create-file', async (req, res) => {
+
+/**
+ * Axios setup
+ * 
+    const ob = new FormData()
+    ob.append('img', img.files[0], img.files[0].name)
+    ob.append('pid', 1)
+    ob.append('title', "File One")
+
+    axios.defaults.baseURL = 'http://localhost:2727/';
+
+    axios.post('create-file', ob).then(res => {
+        console.log(res);
+    }).catch(e => {
+        console.log(e);
+    })
+ */
+router.post('/create-file', Uploader.single('img'), async (req, res) => {
     try {
 
         //get data from body
-        const { pid, title, url } = req.body
-        if (!Helper.validateField(pid, title, url)) {
-            throw new Error("Enter Page id,File title,File url")
+        const file = req.file
+        const { pid, title } = req.body
+        if (!Helper.validateField(pid, title)) {
+            throw new Error("Enter Page id,File title")
         }
-        //create a page
-        const file = await File.create({ pid, title, url })
+        const url = "http://localhost:2727/static/" + file.filename
 
-        res.send(Response(false, "success", file.toJSON()))
+        //create a page
+        const fileOb = await File.create({ pid, title, url })
+
+        res.send(Response(false, "success", fileOb.toJSON()))
     } catch (error) {
         res.send(Response(true, error.message, false))
     }

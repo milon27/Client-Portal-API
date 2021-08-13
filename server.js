@@ -23,6 +23,9 @@ app.use(helmet());
 //enable cros 
 app.use(cors({ origin: true, credentials: true }))
 
+app.use('/static', express.static('uploads'))
+//url: http://localhost:2727/static/0f8f54c1-9e96-4ec7-97b4-f7d2d1a44d8e-1628847597838.jpg
+
 //connect db
 require('./models')
 
