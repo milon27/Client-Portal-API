@@ -20,5 +20,6 @@ const Define = {
     MONTHS: "months",
     MINUTES: "minutes",
     SECONDS: "seconds",
+
 }
 module.exports = Define

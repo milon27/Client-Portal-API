@@ -39,7 +39,8 @@ const AuthController = {
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
             delete user.password
-            res.status(200).json(Response(false, "user created successfully", { ...user, token }))
+            //, token-if you want you can pass the token
+            res.status(200).json(Response(false, "user created successfully", { ...user }))
 
         } catch (e) {
             console.log("auth sign up: ", e);
@@ -79,7 +80,8 @@ const AuthController = {
             //send token in http cookie with no expire
             res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
             delete user.password
-            res.status(200).json(Response(false, "User Login successfully", { ...user, token }))
+            // res.status(200).json(Response(false, "User Login successfully", { ...user, token }))
+            res.status(200).json(Response(false, "User Login successfully", { ...user }))
 
         } catch (e) {
             console.log("auth login: ", e);
