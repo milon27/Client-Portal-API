@@ -8,6 +8,7 @@ const Helper = require('../utils/Helper')
 
 const Uploader = require('../utils/MulterUtil')
 const ClientController = require('../Controllers/ClientController')
+const Define = require('../utils/Define')
 
 /**
  * @design by milon27
@@ -124,7 +125,7 @@ router.post('/create-file', Uploader.single('img'), async (req, res) => {
         if (!Helper.validateField(pid, title)) {
             throw new Error("Enter Page id,File title")
         }
-        const url = "http://localhost:2727/static/" + file.filename
+        const url = Define.STATIC_URL + file.filename
 
         //create a page
         const fileOb = await File.create({ pid, title, url })

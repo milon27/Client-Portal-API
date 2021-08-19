@@ -1,12 +1,13 @@
 const multer = require('multer')
 const path = require('path')
+const Define = require('./Define')
 
 
 /**
  * config multer
  */
 
-const UPLOAD_DESTINATION = './uploads/'
+const UPLOAD_DESTINATION = Define.UPLOAD_DESTINATION
 let Uploader = multer({
     // //where to upload
     // dest: uploadFolder,

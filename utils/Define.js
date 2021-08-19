@@ -1,4 +1,6 @@
 const Define = {
+    STATIC_URL: "http://localhost:2727/static/",
+    UPLOAD_DESTINATION: "./uploads/",
     //user access token
     TOKEN: "auth_token",
     SESSION_COOKIE_OPTION: {

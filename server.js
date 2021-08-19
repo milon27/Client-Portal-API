@@ -33,6 +33,7 @@ require('./models')
 app.get('/', (req, res) => res.send('home'))
 app.use('/auth', require('./routers/authRouter'))
 app.use('/client', AuthMid, require('./routers/clientRouter'))
+app.use('/admin', AuthMid, require('./routers/adminRouter'))
 
 
 //catch all error
