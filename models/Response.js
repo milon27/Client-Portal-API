@@ -5,11 +5,11 @@
  * @param {Object} data 
  * @returns {Response}
  */
-const Response = (error, message, data) => {
+const Response = (error, message, response) => {
     return {
         error,
         message,
-        response: data
+        response
     }
 }
 module.exports = Response

@@ -56,6 +56,11 @@ ___
  * .env
 
 
+
+<br/><br/>
+>>> some rule
+* when update / add make sure you return the **updated/new object** in response
+
 <br/><br/><br/><br/>
 ___
 

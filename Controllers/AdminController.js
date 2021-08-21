@@ -115,7 +115,7 @@ const AdminController = {
                 const path = oldurl.split("/").pop()
                 //console.log("---------", path);
                 fs.unlinkSync(Define.UPLOAD_DESTINATION + path)
-                console.log("old file deleted");
+                console.log("---------old file deleted");
             }
 
 
@@ -131,6 +131,8 @@ const AdminController = {
                 ...data
             }
 
+            console.log("newobj---", newobj);
+
             const [result, obj] = await File.update(newobj, {
                 where: {
                     id: newobj.id
@@ -140,7 +142,7 @@ const AdminController = {
             if (result === 0) {
                 res.send(Response(true, "update failed.", false))
             } else {
-                res.send(Response(false, "update success", newobj))
+                res.send(Response(false, "update success", { ...newobj, id: parseInt(newobj.id) }))
             }
         } catch (error) {
             res.send(Response(true, error.message, false))
