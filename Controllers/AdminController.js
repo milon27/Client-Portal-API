@@ -24,6 +24,7 @@ const AdminController = {
                 res.send(Response(false, "delete success", true))
             }
         } catch (error) {
+            console.log(error);
             res.send(Response(true, error.message, false))
         }
     },
@@ -71,10 +72,10 @@ const AdminController = {
     },
 
     //delete & update file
-
     deleteFile: async (req, res) => {
         try {
             const id = req.params.fid
+
             const result = await File.destroy({
                 where: {
                     id
@@ -84,7 +85,13 @@ const AdminController = {
             if (result === 0) {
                 res.send(Response(true, "deletion failed.", false))
             } else {
-                res.send(Response(false, "delete success", true))
+                if (req.body.old_url) {
+                    const path = req.body.old_url.split("/").pop()
+                    fs.unlinkSync(Define.UPLOAD_DESTINATION + path)
+                    res.send(Response(false, "delete success", true))
+                } else {
+                    res.send(Response(false, "delete success", true))
+                }
             }
         } catch (error) {
             res.send(Response(true, error.message, false))
@@ -102,12 +109,11 @@ const AdminController = {
                 const url = Define.STATIC_URL + file.filename
                 newobj.url = url
                 //new file there so delete old url:
-                //
 
                 const oldurl = data.old_url
 
                 const path = oldurl.split("/").pop()
-                console.log("---------", path);
+                //console.log("---------", path);
                 fs.unlinkSync(Define.UPLOAD_DESTINATION + path)
                 console.log("old file deleted");
             }
