@@ -45,6 +45,11 @@ const Helper = {
         }
     },//validateField
 
+    getBaseUrl: (req) => {
+        const baseUrl = `${req.protocol}://${req.headers.host}`;
+        return baseUrl + "/static/"
+    },
+
     //send email
     sendEmail: (email, message) => {
         const FROM = `${process.env.EMAIL_ID}`

@@ -10,6 +10,7 @@ const helmet = require('helmet');
 
 const AuthMid = require('./routers/middleware/AuthMid');
 const ErrorMid = require('./routers/middleware/ErrorMid');
+const Helper = require('./utils/Helper');
 
 const app = express();
 /**
@@ -30,7 +31,9 @@ app.use('/static', express.static('uploads'))
 require('./models')
 
 //routers
-app.get('/', (req, res) => res.send('home'))
+app.get('/', (req, res) => {
+    res.send(Helper.getBaseUrl(req))
+})
 app.use('/auth', require('./routers/authRouter'))
 app.use('/client', AuthMid, require('./routers/clientRouter'))
 app.use('/admin', AuthMid, require('./routers/adminRouter'))

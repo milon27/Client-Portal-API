@@ -125,7 +125,7 @@ router.post('/create-file', Uploader.single('img'), async (req, res) => {
         if (!Helper.validateField(pid, title)) {
             throw new Error("Enter Page id,File title")
         }
-        const url = Define.STATIC_URL + file.filename
+        const url = Helper.getBaseUrl(req) + file.filename
 
         //create a page
         const fileOb = await File.create({ pid, title, url })

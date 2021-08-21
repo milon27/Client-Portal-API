@@ -1,5 +1,5 @@
 const Define = {
-    STATIC_URL: "http://localhost:2727/static/",
+    STATIC_URL: "http://localhost:2727/static/",//not used
     UPLOAD_DESTINATION: "./uploads/",
     //user access token
     TOKEN: "auth_token",

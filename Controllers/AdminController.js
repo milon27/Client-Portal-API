@@ -5,6 +5,7 @@ const User = require("../models/User")
 const Define = require("../utils/Define")
 
 const fs = require('fs')
+const Helper = require("../utils/Helper")
 
 const AdminController = {
     //delete a user who is client (not admin)
@@ -106,7 +107,7 @@ const AdminController = {
             const file = req.file
             const data = req.body
             if (file) {
-                const url = Define.STATIC_URL + file.filename
+                const url = Helper.getBaseUrl(req) + file.filename
                 newobj.url = url
                 //new file there so delete old url:
 
