@@ -13,6 +13,8 @@ const Page = con.define(DbDefine.PAGE_TABLE, {
         }
     },//user id
     title: DataTypes.STRING,
+    title_sidebar: DataTypes.STRING,
+    icon: DataTypes.STRING,
     data_one: DataTypes.STRING,
     data_two: DataTypes.STRING,
     data_three: DataTypes.STRING,

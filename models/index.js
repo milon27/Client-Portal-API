@@ -50,7 +50,7 @@ let con = new Sequelize(process.env.db_database, process.env.db_username, proces
     console.log("connection success");
     //sync
     await con.sync({
-      force: false
+      force: true
     })
   } catch (e) {
     console.log("error db con: ", e)

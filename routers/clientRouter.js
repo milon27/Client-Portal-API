@@ -8,7 +8,6 @@ const Helper = require('../utils/Helper')
 
 const Uploader = require('../utils/MulterUtil')
 const ClientController = require('../Controllers/ClientController')
-const Define = require('../utils/Define')
 
 /**
  * @design by milon27
@@ -48,15 +47,15 @@ router.get('/all/:page', async (req, res) => {
 router.post('/create-page', async (req, res) => {
     try {
         //get data from body
-        let { uid, title, data_one, data_two, data_three } = req.body
-        if (!Helper.validateField(uid, title)) {
-            throw new Error("Enter Client ID,Page Title")
+        let { uid, title, title_sidebar, icon, data_one, data_two, data_three } = req.body
+        if (!Helper.validateField(uid, title, title_sidebar, icon)) {
+            throw new Error("Enter Client ID,Page Title,title_sidebar, icon")
         }
         data_one = data_one || DbDefine.NOT_SET_STR
         data_two = data_two || DbDefine.NOT_SET_STR
         data_three = data_three || DbDefine.NOT_SET_STR
         //create a page
-        const page = await Page.create({ uid: uid, title, data_one: data_one, data_two: data_two, data_three: data_three })
+        const page = await Page.create({ uid: uid, icon, title, title_sidebar, data_one: data_one, data_two: data_two, data_three: data_three })
 
         res.send(Response(false, "success", page.toJSON()))
     } catch (error) {
@@ -107,6 +106,7 @@ router.get('/get-page/:pid', async (req, res) => {
     ob.append('img', img.files[0], img.files[0].name)
     ob.append('pid', 1)
     ob.append('title', "File One")
+    ob.append('description', "File Desc")
 
     axios.defaults.baseURL = 'http://localhost:2727/';
 
@@ -121,14 +121,14 @@ router.post('/create-file', Uploader.single('img'), async (req, res) => {
 
         //get data from body
         const file = req.file
-        const { pid, title } = req.body
-        if (!Helper.validateField(pid, title)) {
-            throw new Error("Enter Page id,File title")
+        const { pid, title, description } = req.body
+        if (!Helper.validateField(pid, title, description)) {
+            throw new Error("Enter Page id,File title,description")
         }
         const url = Helper.getBaseUrl(req) + file.filename
 
         //create a page
-        const fileOb = await File.create({ pid, title, url })
+        const fileOb = await File.create({ pid, title, description, url })
 
         res.send(Response(false, "success", fileOb.toJSON()))
     } catch (error) {

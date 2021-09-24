@@ -11,6 +11,7 @@ const File = con.define(DbDefine.FILE_TABLE, {
         }
     },//page id
     title: DataTypes.STRING,
+    description: DataTypes.STRING,
     url: DataTypes.STRING
 })
 
