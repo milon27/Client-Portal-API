@@ -34,9 +34,14 @@ require('./models')
 app.get('/', (req, res) => {
     res.send(Helper.getBaseUrl(req))
 })
+
 app.use('/auth', require('./routers/authRouter'))
-app.use('/client', AuthMid, require('./routers/clientRouter'))
 app.use('/admin', AuthMid, require('./routers/adminRouter'))
+app.use('/page', AuthMid, require('./routers/pageRouter'))
+app.use('/file', AuthMid, require('./routers/fileRouter'))
+
+// app.use('/client', AuthMid, require('./routers/clientRouter'))
+
 
 
 //catch all error
