@@ -46,7 +46,9 @@ const Helper = {
     },//validateField
 
     getBaseUrl: (req) => {
-        const baseUrl = `${req.protocol}://${req.headers.host}`;
+        const protocol = process.env.NODE_ENV === "production" ? process.env.PROTOCOL : process.env.DEV_PROTOCOL
+
+        const baseUrl = `${protocol}://${req.headers.host}`;
         return baseUrl + "/static/"
     },
 
